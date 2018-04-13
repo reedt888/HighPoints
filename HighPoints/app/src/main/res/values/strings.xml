@@ -1,3 +1,9 @@
 <resources>
+
     <string name="app_name">HighPoints</string>
+
+    <string name="error_load_players">Failed to load players</string>
+
+    <string name="base_url">https://gist.githubusercontent.com/</string>
+
 </resources>
