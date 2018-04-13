@@ -4,7 +4,7 @@ import uk.co.fanduel.highpoints.model.Players
 
 interface MainView {
 
-    fun showPlayers(players: Players)
+    fun showPlayers(playersResponse: Players)
 
     fun showLoadPlayersError()
 }
