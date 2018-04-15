@@ -11,7 +11,7 @@ class PlayersApiTest {
     @Test
     fun whenGetPlayersThenPlayersTomAndDickReturned() {
         val server = MockWebServer()
-        server.enqueue(MockResponse().setBody("{\"players\":[{\"first_name\":\"Tom\",\"fppg\":1.23,\"images\":{\"default\":{\"url\": \"URL1\"}}},{\"first_name\":\"Dick\",\"fppg\":4.56,\"images\":{\"default\":{\"url\": \"URL2\"}}}]}"))
+        server.enqueue(MockResponse().setBody("{\"players\":[{\"id\":\"1\",\"first_name\":\"Tom\",\"fppg\":1.23,\"images\":{\"default\":{\"url\": \"URL1\"}}},{\"id\":\"2\",\"first_name\":\"Dick\",\"fppg\":4.56,\"images\":{\"default\":{\"url\": \"URL2\"}}}]}"))
         server.start()
 
         val baseUrl = server.url("").url().toString()
@@ -23,12 +23,14 @@ class PlayersApiTest {
             assertThat(players.size, equalTo(2))
 
             with(players[0]) {
+                assertThat(id, equalTo("1"))
                 assertThat(firstName, equalTo("Tom"))
                 assertThat(fppg, equalTo(1.23))
                 assertThat(images.default.url, equalTo("URL1"))
             }
 
             with(players[1]) {
+                assertThat(id, equalTo("2"))
                 assertThat(firstName, equalTo("Dick"))
                 assertThat(fppg, equalTo(4.56))
                 assertThat(images.default.url, equalTo("URL2"))

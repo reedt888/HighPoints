@@ -20,6 +20,7 @@ class PlayersApiIntegrationTest {
             assertThat(players.size, equalTo(59))
 
             with(players.first()) {
+                assertThat(id, equalTo("15475-9524"))
                 assertThat(firstName, equalTo("Stephen"))
                 assertThat(fppg, equalTo(47.94303797468354))
                 assertThat(
@@ -38,6 +39,7 @@ class PlayersApiIntegrationTest {
 
         for (player in playersResponse.players) {
             with(player) {
+                assertThat(id, `is`(notNullValue()))
                 assertThat(firstName, `is`(notNullValue()))
                 assertThat(fppg, `is`(notNullValue()))
                 assertThat(images.default.url, `is`(notNullValue()))
