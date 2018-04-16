@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.fragment_main.*
 import uk.co.fanduel.highpoints.R
 import uk.co.fanduel.highpoints.api.PlayersApi
 import uk.co.fanduel.highpoints.model.Player
-import uk.co.fanduel.highpoints.model.Players
 
 class MainFragment : Fragment(), MainView {
 
@@ -22,7 +21,8 @@ class MainFragment : Fragment(), MainView {
     // - Consider injecting the presenter so we can mock it and test the fragment using Robolectric
     // - Would also enable basic Robolectric testing of the parent activity (although not much to test)
     // - Consider adding placeholder and error drawables for loading of player images
-    // - Consider using a Toast with a retry option when player loading fails
+    // - Consider using a Snackbar with a retry option when player loading fails
+    // - Retain state on configuration change
 
     companion object {
         fun newInstance() = MainFragment()
@@ -45,7 +45,7 @@ class MainFragment : Fragment(), MainView {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
-        presenter = MainPresenter(PlayersApi(getString(R.string.base_url)), this)
+        presenter = MainPresenter(this, PlayersApi(getString(R.string.base_url)))
         presenter.start()
     }
 
@@ -54,11 +54,35 @@ class MainFragment : Fragment(), MainView {
         presenter.stop()
     }
 
-    override fun showPlayers(playersResponse: Players) {
-        with (playersResponse) {
-            displayPlayer(players[0], player_1_image, player_1_name)
-            displayPlayer(players[1], player_2_image, player_2_name)
+    override fun showOptions(options: Pair<Player, Player>) {
+        with (options) {
+            displayPlayer(options.first, player_1_image, player_1_name)
+            displayPlayer(options.second, player_2_image, player_2_name)
         }
+    }
+
+    override fun scheduleNext() {
+        // TODO
+    }
+
+    override fun showSelectedCorrect(selected: Player) {
+        // TODO
+    }
+
+    override fun showSelectedIncorrect(selected: Player) {
+        // TODO
+    }
+
+    override fun showCorrectSoFar(correctSoFar: Int) {
+        // TODO
+    }
+
+    override fun showComplete() {
+        // TODO
+    }
+
+    override fun showNotEnoughPlayersError() {
+        Toast.makeText(context, R.string.error_not_enough_players, Toast.LENGTH_SHORT).show()
     }
 
     override fun showLoadPlayersError() {

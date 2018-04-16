@@ -2,14 +2,19 @@ package uk.co.fanduel.highpoints.game
 
 import uk.co.fanduel.highpoints.model.Player
 
-class PlayerSelector(private val allPlayers: List<Player>) {
+class PlayerSelector {
 
-    // TODO: Generalise to support returning N players rather than just 2
+    // TODO:
+    // - Generalise to support returning N players rather than just 2
+    // - Consider a setter to set allPlayers
 
+    private lateinit var allPlayers: List<Player>
     private val remainingPlayers = mutableListOf<Player>()
 
-    init {
-        reset()
+    fun init(allPlayers: List<Player>) {
+        this.allPlayers = allPlayers
+        this.remainingPlayers.addAll(allPlayers)
+        this.remainingPlayers.shuffle()
     }
 
     fun isMore(): Boolean = remainingPlayers.size >= 2

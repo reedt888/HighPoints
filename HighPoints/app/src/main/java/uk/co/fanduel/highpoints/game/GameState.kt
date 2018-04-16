@@ -14,7 +14,9 @@ class GameState {
     private var options: Pair<Player, Player>? = null
     private var highFppg = 0.0
 
-    fun isMoreTurns(): Boolean = correctSoFar < targetCorrect
+    fun getCorrectSoFar() = correctSoFar
+
+    fun isComplete(): Boolean = correctSoFar >= targetCorrect
 
     fun setOptions(options: Pair<Player, Player>) {
         this.options = options

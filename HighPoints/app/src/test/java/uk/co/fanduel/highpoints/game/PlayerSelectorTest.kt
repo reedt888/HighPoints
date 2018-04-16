@@ -14,48 +14,52 @@ import uk.co.fanduel.highpoints.model.Player
 class PlayerSelectorTest {
 
     // TODO:
-    // Consider test that assert random results are different as there is a chance they
-    // could fail, especially with small numbers of players
+    // - Consider test that assert random results are different as there is a chance they
+    //   could fail, especially with small numbers of players
+    // - Add tests for mis-use, e.g. init() not called / called multiple times (need for these
+    //   tests suggests a design issue)
+
+    private val playerSelector = PlayerSelector()
 
     @Test
     fun whenNoPlayersThenIsMoreReturnsFalse() {
-        val playerSelector = PlayerSelector(createPlayers(0))
+        playerSelector.init(createPlayers(0))
         assertThat(playerSelector.isMore(), `is`(false))
     }
 
     @Test
     fun whenOnePlayerThenIsMoreReturnsFalse() {
-        val playerSelector = PlayerSelector(createPlayers(1))
+        playerSelector.init(createPlayers(1))
         assertThat(playerSelector.isMore(), `is`(false))
     }
 
     @Test
     fun whenTwoPlayerThenIsMoreReturnsTrue() {
-        val playerSelector = PlayerSelector(createPlayers(2))
+        playerSelector.init(createPlayers(2))
         assertThat(playerSelector.isMore(), `is`(true))
     }
 
     @Test
     fun whenMoreThanTwoPlayerThenIsMoreReturnsTrue() {
-        val playerSelector = PlayerSelector(createPlayers(17))
+        playerSelector.init(createPlayers(17))
         assertThat(playerSelector.isMore(), `is`(true))
     }
 
     @Test(expected = IndexOutOfBoundsException::class)
     fun whenNoPlayersThenGetNextThrowsException() {
-        val playerSelector = PlayerSelector(createPlayers(0))
+        playerSelector.init(createPlayers(0))
         playerSelector.getNext()
     }
 
     @Test(expected = IndexOutOfBoundsException::class)
     fun whenOnePlayerThenGetNextThrowsException() {
-        val playerSelector = PlayerSelector(createPlayers(1))
+        playerSelector.init(createPlayers(1))
         playerSelector.getNext()
     }
 
     @Test
     fun whenTwoPlayersThenGetNextReturnsDifferentPlayers() {
-        val playerSelector = PlayerSelector(createPlayers(2))
+        playerSelector.init(createPlayers(2))
         val players = playerSelector.getNext()
 
         assertThat(players, `is`(notNullValue()))
@@ -66,7 +70,7 @@ class PlayerSelectorTest {
 
     @Test
     fun whenManyPlayersThenGetNextReturnsCorrectNumberOfPairs() {
-        val playerSelector = PlayerSelector(createPlayers(9))
+        playerSelector.init(createPlayers(9))
         playerSelector.getNext()
         playerSelector.getNext()
         playerSelector.getNext()
@@ -81,7 +85,7 @@ class PlayerSelectorTest {
     @Test
     fun whenGetNextThenReturnsPlayersInDifferentOrderToOriginal() {
         val originalPlayers = createPlayers(6)
-        val playerSelector = PlayerSelector(originalPlayers)
+        playerSelector.init(originalPlayers)
 
         val nextPlayers = mutableListOf<Player>()
 
@@ -103,7 +107,7 @@ class PlayerSelectorTest {
     @Test
     fun whenGetNextAfterResetThenReturnsPlayersInDifferent() {
         val originalPlayers = createPlayers(6)
-        val playerSelector = PlayerSelector(originalPlayers)
+        playerSelector.init(originalPlayers)
 
         val nextPlayers1 = mutableListOf<Player>()
 

@@ -3,6 +3,7 @@
     <string name="app_name">HighPoints</string>
 
     <string name="player_image_content_description">Image of player</string>
+    <string name="error_not_enough_players">Failed to load enough players</string>
     <string name="error_load_players">Failed to load players</string>
 
     <string name="base_url">https://gist.githubusercontent.com/</string>

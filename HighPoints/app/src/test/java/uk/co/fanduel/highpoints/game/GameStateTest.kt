@@ -12,31 +12,40 @@ class GameStateTest {
     private val gameState = GameState()
 
     @Test
-    fun whenIsCorrectLessThan10TimesThenIsMoreTurnsReturnsTrue() {
-        assertThat(gameState.isMoreTurns(), `is`(true))
-
-        for (count in 1..9) {
+    fun whenGetCorrectSoFarThenReturnsNumberCorrectSoFar() {
+        assertThat(gameState.getCorrectSoFar(), `is`(0))
+        for (count in 1..10) {
             gameState.onCorrect()
-            assertThat(gameState.isMoreTurns(), `is`(true))
+            assertThat(gameState.getCorrectSoFar(), `is`(count))
         }
     }
 
     @Test
-    fun whenIsCorrect10TimesThenIsMoreTurnsReturnsFalse() {
+    fun whenCorrectLessThan10TimesThenIsCompleteReturnsFalse() {
+        assertThat(gameState.isComplete(), `is`(false))
+
+        for (count in 1..9) {
+            gameState.onCorrect()
+            assertThat(gameState.isComplete(), `is`(false))
+        }
+    }
+
+    @Test
+    fun whenCorrect10TimesThenIsCompleteReturnsTrue() {
         for (count in 1..10) {
             gameState.onCorrect()
         }
 
-        assertThat(gameState.isMoreTurns(), `is`(false))
+        assertThat(gameState.isComplete(), `is`(true))
     }
 
     @Test
-    fun whenIsCorrectMoreThan10TimesThenIsMoreTurnsReturnsFalse() {
+    fun whenCorrectMoreThan10TimesThenIsCompleteReturnsTrue() {
         for (count in 1..17) {
             gameState.onCorrect()
         }
 
-        assertThat(gameState.isMoreTurns(), `is`(false))
+        assertThat(gameState.isComplete(), `is`(true))
     }
 
     @Test
@@ -101,12 +110,14 @@ class GameStateTest {
         val player2 = createPlayer(1, 1.23)
         gameState.setOptions(Pair(player1, player2))
 
-        assertThat(gameState.isMoreTurns(), `is`(false))
+        assertThat(gameState.getCorrectSoFar(), `is`(10))
+        assertThat(gameState.isComplete(), `is`(true))
         assertThat(gameState.isCorrect(player1), `is`(true))
 
         gameState.reset()
 
-        assertThat(gameState.isMoreTurns(), `is`(true))
+        assertThat(gameState.getCorrectSoFar(), `is`(0))
+        assertThat(gameState.isComplete(), `is`(false))
         assertThat(gameState.isCorrect(player1), `is`(false))
     }
 
