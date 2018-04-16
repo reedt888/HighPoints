@@ -2,7 +2,12 @@
 
     <string name="app_name">HighPoints</string>
 
+    <string name="correct_label">Correct</string>
+    <string name="target_label">Target</string>
+    <string name="reset_button">New Game</string>
     <string name="player_image_content_description">Image of player</string>
+    <string name="game_complete_message">Congratulations, target reached!</string>
+
     <string name="error_not_enough_players">Failed to load enough players</string>
     <string name="error_load_players">Failed to load players</string>
 

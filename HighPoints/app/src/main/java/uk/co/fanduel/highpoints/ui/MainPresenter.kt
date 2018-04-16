@@ -85,6 +85,7 @@ class MainPresenter(
         val options = playerSelector.getNext()
         gameState.setOptions(options)
         view.showOptions(options)
+        view.showCorrectSoFar(0)
     }
 
     private fun showNotEnoughPlayers() = view.showNotEnoughPlayersError()
