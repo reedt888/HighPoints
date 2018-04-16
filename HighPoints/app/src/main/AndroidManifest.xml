@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="uk.co.fanduel.highpoints">
 
+    <!-- For simplicity, configChanges is used as the simplest way of preserving state when -->
+    <!-- the device is rotated. This has obvious downsides such as not supporting different -->
+    <!-- resources for portrait vs landscape -->
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -13,12 +17,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.MainActivity">
+        <activity
+            android:name=".ui.MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 

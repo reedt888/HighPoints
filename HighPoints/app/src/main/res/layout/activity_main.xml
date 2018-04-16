@@ -1,8 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity"
-    tools:ignore="MergeRootFrame" />
+    tools:context=".ui.MainActivity">
+
+    <!-- TODO: Consider creating custom view for a player card -->
+    <!-- TODO: Consider changing to a RecyclerView if we want to support more than 2 players -->
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/player_1_card"
+        style="@style/PlayerCard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/player_2_card"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            style="@style/PlayerContainer"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:id="@+id/player_1_image"
+                style="@style/PlayerImage"
+                android:contentDescription="@string/player_image_content_description" />
+
+            <TextView
+                android:id="@+id/player_1_name"
+                style="@style/PlayerName" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/player_2_card"
+        style="@style/PlayerCard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/player_1_card"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            style="@style/PlayerContainer"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:id="@+id/player_2_image"
+                style="@style/PlayerImage"
+                android:contentDescription="@string/player_image_content_description" />
+
+            <TextView
+                android:id="@+id/player_2_name"
+                style="@style/PlayerName" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>
