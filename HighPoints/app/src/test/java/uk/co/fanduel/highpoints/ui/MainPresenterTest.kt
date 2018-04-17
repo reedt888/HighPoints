@@ -56,7 +56,7 @@ class MainPresenterTest {
     }
 
     @Test
-    fun whenStartAndGetPlayersSucceedsAndEnoughPlayersAndInstructionsAcknowledgedThenViewShowsOptions() {
+    fun whenStartAndGetPlayersSucceedsAndEnoughPlayersAndInstructionsAcknowledgedThenViewShowsInitialOptions() {
         val players = Players(listOf(createPlayer(0), createPlayer(1)))
         val options = Pair(players.players[0], players.players[1])
 
@@ -69,7 +69,7 @@ class MainPresenterTest {
 
         verify(playerSelector).init(players.players)
         verify(gameState).setOptions(options)
-        verify(view).showOptions(options)
+        verify(view).showInitialOptions(options)
         verify(view).showCorrectSoFar(0)
     }
 
@@ -105,7 +105,7 @@ class MainPresenterTest {
     }
 
     @Test
-    fun whenInstructionsAcknowledgedThenViewShowsOptions() {
+    fun whenInstructionsAcknowledgedThenViewShowsInitialOptions() {
         val options = Pair(createPlayer(0), createPlayer(1))
 
         `when`(playerSelector.getNext()).thenReturn(options)
@@ -113,7 +113,7 @@ class MainPresenterTest {
         presenter.onInstructionsAcknowledged()
 
         verify(gameState).setOptions(options)
-        verify(view).showOptions(options)
+        verify(view).showInitialOptions(options)
         verify(view).showCorrectSoFar(0)
     }
 

@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -53,8 +54,23 @@ class MainActivity : AppCompatActivity(), MainView {
         presenter.stop()
     }
 
+    @SuppressLint("InflateParams")
     override fun showInstructions() {
-        // TODO
+        AlertDialog
+            .Builder(this)
+            .setView(layoutInflater.inflate(R.layout.dialog_instructions, null))
+            .setPositiveButton(android.R.string.ok, { dialogInterface, _ ->
+                dialogInterface.dismiss()
+                presenter.onInstructionsAcknowledged()
+            })
+            .setCancelable(false)
+            .create()
+            .show()
+    }
+
+    override fun showInitialOptions(options: Pair<Player, Player>) {
+        main_container.visibility = View.VISIBLE
+        showOptions(options)
     }
 
     override fun showOptions(options: Pair<Player, Player>) {

@@ -4,8 +4,14 @@
 
     <string name="correct_label">Correct</string>
     <string name="target_label">Target</string>
+
     <string name="reset_button">New Game</string>
+
     <string name="player_image_content_description">Image of player</string>
+
+    <string name="instructions_title">How To Play</string>
+    <string name="instructions_message">You will be shown pairs of players.\n\nFor each pair, pick the player you think has the highest score.\n\nGet 10 correct to win. EASY!</string>
+
     <string name="game_complete_image_content_description">Fireworks</string>
     <string name="game_complete_title">You Win!</string>
     <string name="game_complete_message">Congratulations, target reached! Press NEW GAME to play again</string>

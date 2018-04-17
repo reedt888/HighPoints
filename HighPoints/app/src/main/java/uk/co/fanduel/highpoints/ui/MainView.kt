@@ -8,6 +8,8 @@ interface MainView {
 
     fun showInstructions()
 
+    fun showInitialOptions(options: Pair<Player, Player>)
+
     fun showOptions(options: Pair<Player, Player>)
 
     fun scheduleNext()

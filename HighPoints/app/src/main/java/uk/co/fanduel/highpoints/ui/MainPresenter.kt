@@ -101,7 +101,7 @@ class MainPresenter(
     private fun showInitialOptions() {
         val options = playerSelector.getNext()
         gameState.setOptions(options)
-        view.showOptions(options)
+        view.showInitialOptions(options)
         view.showCorrectSoFar(0)
     }
 
