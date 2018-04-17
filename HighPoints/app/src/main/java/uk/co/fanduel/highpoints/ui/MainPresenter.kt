@@ -23,6 +23,7 @@ class MainPresenter(
     // TODO:
     // - Consider moving schedulers code to a separate object to remove Android from presenter
     // - Generalise to support returning N players rather than just 2
+    // - Pre-fetch images for future options, e.g fetch options 3,4 when displaying 1,2
 
     private var disposable: Disposable? = null
 
@@ -65,7 +66,7 @@ class MainPresenter(
 
         val options = playerSelector.getNext()
         gameState.setOptions(options)
-        view.showOptions(options)
+        view.showNextOptions(options)
     }
 
     fun onReset() {
@@ -75,7 +76,7 @@ class MainPresenter(
         val options = playerSelector.getNext()
 
         gameState.setOptions(options)
-        view.showOptions(options)
+        view.showInitialOptions(options)
         view.showCorrectSoFar(gameState.getCorrectSoFar())
     }
 

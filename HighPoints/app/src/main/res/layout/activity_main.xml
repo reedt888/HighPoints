@@ -13,7 +13,7 @@
     <!-- TODO: Consider changing to a RecyclerView if we want to support more than 2 players -->
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,72 +47,72 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/player_1_card"
-        style="@style/PlayerCard"
+    <LinearLayout
+        android:id="@+id/players_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/reset_button"
-        app:layout_constraintEnd_toStartOf="@+id/player_2_card"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.4"
-        app:layout_constraintVertical_chainStyle="spread_inside">
-
-        <LinearLayout
-            style="@style/PlayerContainer"
-            android:layout_height="match_parent"
-            tools:ignore="UseCompoundDrawables">
-
-            <TextView
-                android:id="@+id/player_1_name"
-                style="@style/PlayerName" />
-
-            <ImageView
-                android:id="@+id/player_1_image"
-                style="@style/PlayerImage"
-                android:contentDescription="@string/player_image_content_description" />
-
-            <TextView
-                android:id="@+id/player_1_score"
-                style="@style/PlayerScore" />
-
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/player_2_card"
-        style="@style/PlayerCard"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/reset_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@+id/player_1_card"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header"
         app:layout_constraintVertical_bias="0.4"
         app:layout_constraintVertical_chainStyle="spread_inside">
 
-        <LinearLayout
-            style="@style/PlayerContainer"
-            tools:ignore="UseCompoundDrawables">
+        <android.support.v7.widget.CardView
+            android:id="@+id/player_1_card"
+            style="@style/PlayerCard">
 
-            <TextView
-                android:id="@+id/player_2_name"
-                style="@style/PlayerName" />
+            <LinearLayout
+                style="@style/PlayerContainer"
+                android:layout_height="match_parent"
+                tools:ignore="UseCompoundDrawables">
 
-            <ImageView
-                android:id="@+id/player_2_image"
-                style="@style/PlayerImage"
-                android:contentDescription="@string/player_image_content_description" />
+                <TextView
+                    android:id="@+id/player_1_name"
+                    style="@style/PlayerName" />
 
-            <TextView
-                android:id="@+id/player_2_score"
-                style="@style/PlayerScore" />
+                <ImageView
+                    android:id="@+id/player_1_image"
+                    style="@style/PlayerImage"
+                    android:contentDescription="@string/player_image_content_description" />
 
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+                <TextView
+                    android:id="@+id/player_1_score"
+                    style="@style/PlayerScore" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/player_2_card"
+            style="@style/PlayerCard">
+
+            <LinearLayout
+                style="@style/PlayerContainer"
+                tools:ignore="UseCompoundDrawables">
+
+                <TextView
+                    android:id="@+id/player_2_name"
+                    style="@style/PlayerName" />
+
+                <ImageView
+                    android:id="@+id/player_2_image"
+                    style="@style/PlayerImage"
+                    android:contentDescription="@string/player_image_content_description" />
+
+                <TextView
+                    android:id="@+id/player_2_score"
+                    style="@style/PlayerScore" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/reset_button"

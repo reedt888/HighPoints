@@ -177,7 +177,7 @@ class MainPresenterTest {
     }
 
     @Test
-    fun whenNextThenViewShowsOptions() {
+    fun whenNextThenViewShowsNextOptions() {
         val options = Pair(createPlayer(0), createPlayer(1))
 
         `when`(playerSelector.getNext()).thenReturn(options)
@@ -185,7 +185,7 @@ class MainPresenterTest {
         presenter.onNext()
 
         verify(gameState).setOptions(options)
-        verify(view).showOptions(options)
+        verify(view).showNextOptions(options)
     }
 
     @Test
@@ -201,7 +201,7 @@ class MainPresenterTest {
         verify(playerSelector).reset()
         verify(gameState).reset()
         verify(gameState).setOptions(options)
-        verify(view).showOptions(options)
+        verify(view).showInitialOptions(options)
         verify(view).showCorrectSoFar(correctSoFar)
     }
 

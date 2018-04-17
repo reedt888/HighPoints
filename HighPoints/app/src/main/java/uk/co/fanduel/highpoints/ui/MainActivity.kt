@@ -8,6 +8,8 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity(), MainView {
     // - Use Robolectric to unit test methods
 
     private companion object {
-        private const val scheduleNextDelay = 1000L
+        private const val scheduleNextDelay = 750L
         private const val showCompleteDelay = 1000L
     }
 
@@ -70,29 +72,20 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun showInitialOptions(options: Pair<Player, Player>) {
         main_container.visibility = View.VISIBLE
-        showOptions(options)
+        displayOptions(options)
     }
 
-    override fun showOptions(options: Pair<Player, Player>) {
-        with(options) {
-            displayPlayer(
-                options.first,
-                player_1_card,
-                player_1_name,
-                player_1_image,
-                player_1_score
-            )
-            displayPlayer(
-                options.second,
-                player_2_card,
-                player_2_name,
-                player_2_image,
-                player_2_score
-            )
-        }
+    override fun showNextOptions(options: Pair<Player, Player>) {
+        val outAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out_left)
+        val inAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
 
-        player_1_card.isClickable = true
-        player_2_card.isClickable = true
+        outAnimation.setAnimationListener(object: DefaultAnimationListener() {
+            override fun onAnimationEnd(p0: Animation?) {
+                displayOptions(options)
+                players_container.startAnimation(inAnimation)
+            }
+        })
+        players_container.startAnimation(outAnimation)
     }
 
     override fun scheduleNext() {
@@ -175,6 +168,28 @@ class MainActivity : AppCompatActivity(), MainView {
             PlayersApi(getString(R.string.base_url))
         )
         presenter.start()
+    }
+
+    private fun displayOptions(options: Pair<Player, Player>) {
+        with(options) {
+            displayPlayer(
+                options.first,
+                player_1_card,
+                player_1_name,
+                player_1_image,
+                player_1_score
+            )
+            displayPlayer(
+                options.second,
+                player_2_card,
+                player_2_name,
+                player_2_image,
+                player_2_score
+            )
+        }
+
+        player_1_card.isClickable = true
+        player_2_card.isClickable = true
     }
 
     private fun displayPlayer(
