@@ -33,7 +33,7 @@ class MainPresenter(
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe({
-                    init(it.players)
+                    init(it)
                 }, {
                     showLoadFailed()
                 })

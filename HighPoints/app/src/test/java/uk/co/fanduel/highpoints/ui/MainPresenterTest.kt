@@ -15,7 +15,6 @@ import uk.co.fanduel.highpoints.game.PlayerSelector
 import uk.co.fanduel.highpoints.model.Image
 import uk.co.fanduel.highpoints.model.Images
 import uk.co.fanduel.highpoints.model.Player
-import uk.co.fanduel.highpoints.model.Players
 
 class MainPresenterTest {
 
@@ -41,8 +40,8 @@ class MainPresenterTest {
 
     @Test
     fun whenStartAndGetPlayersSucceedsAndEnoughPlayersAndInstructionsNotAcknowledgedThenViewShowsInstructions() {
-        val players = Players(listOf(createPlayer(0), createPlayer(1)))
-        val options = Pair(players.players[0], players.players[1])
+        val players = listOf(createPlayer(0), createPlayer(1))
+        val options = Pair(players[0], players[1])
 
         `when`(playersApi.getPlayers()).thenReturn(Observable.just(players))
         `when`(playerSelector.isMore()).thenReturn(true)
@@ -51,14 +50,14 @@ class MainPresenterTest {
 
         presenter.start()
 
-        verify(playerSelector).init(players.players)
+        verify(playerSelector).init(players)
         verify(view).showInstructions()
     }
 
     @Test
     fun whenStartAndGetPlayersSucceedsAndEnoughPlayersAndInstructionsAcknowledgedThenViewShowsInitialOptions() {
-        val players = Players(listOf(createPlayer(0), createPlayer(1)))
-        val options = Pair(players.players[0], players.players[1])
+        val players = listOf(createPlayer(0), createPlayer(1))
+        val options = Pair(players[0], players[1])
 
         `when`(playersApi.getPlayers()).thenReturn(Observable.just(players))
         `when`(playerSelector.isMore()).thenReturn(true)
@@ -67,7 +66,7 @@ class MainPresenterTest {
 
         presenter.start()
 
-        verify(playerSelector).init(players.players)
+        verify(playerSelector).init(players)
         verify(gameState).setOptions(options)
         verify(view).showInitialOptions(options)
         verify(view).showCorrectSoFar(0)
@@ -75,14 +74,14 @@ class MainPresenterTest {
 
     @Test
     fun whenStartAndGetPlayersSucceedsAndNotEnoughPlayersThenViewShowsNotEnoughPlayersError() {
-        val players = Players(emptyList())
+        val players = emptyList<Player>()
 
         `when`(playersApi.getPlayers()).thenReturn(Observable.just(players))
         `when`(playerSelector.isMore()).thenReturn(false)
 
         presenter.start()
 
-        verify(playerSelector).init(players.players)
+        verify(playerSelector).init(players)
         verify(view).showNotEnoughPlayersError()
     }
 

@@ -7,7 +7,7 @@ import io.reactivex.Observable
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import uk.co.fanduel.highpoints.model.Players
+import uk.co.fanduel.highpoints.model.Player
 
 class PlayersApi(private val baseUrl: String) {
 
@@ -35,5 +35,5 @@ class PlayersApi(private val baseUrl: String) {
         retrofit.create(PlayersService::class.java)
     }
 
-    fun getPlayers(): Observable<Players> = playersService.getPlayers()
+    fun getPlayers(): Observable<List<Player>> = playersService.getPlayers().map { stats -> stats.players }
 }

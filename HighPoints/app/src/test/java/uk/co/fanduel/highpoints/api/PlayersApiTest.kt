@@ -16,25 +16,22 @@ class PlayersApiTest {
 
         val baseUrl = server.url("").url().toString()
         val playersApi = PlayersApi(baseUrl)
-        val playersResponse = playersApi.getPlayers().blockingFirst()
+        val players = playersApi.getPlayers().blockingFirst()
 
-        with(playersResponse) {
+        assertThat(players.size, equalTo(2))
 
-            assertThat(players.size, equalTo(2))
+        with(players[0]) {
+            assertThat(id, equalTo("1"))
+            assertThat(firstName, equalTo("Tom"))
+            assertThat(fppg, equalTo(1.23))
+            assertThat(images.default.url, equalTo("URL1"))
+        }
 
-            with(players[0]) {
-                assertThat(id, equalTo("1"))
-                assertThat(firstName, equalTo("Tom"))
-                assertThat(fppg, equalTo(1.23))
-                assertThat(images.default.url, equalTo("URL1"))
-            }
-
-            with(players[1]) {
-                assertThat(id, equalTo("2"))
-                assertThat(firstName, equalTo("Dick"))
-                assertThat(fppg, equalTo(4.56))
-                assertThat(images.default.url, equalTo("URL2"))
-            }
+        with(players[1]) {
+            assertThat(id, equalTo("2"))
+            assertThat(firstName, equalTo("Dick"))
+            assertThat(fppg, equalTo(4.56))
+            assertThat(images.default.url, equalTo("URL2"))
         }
 
         server.shutdown()

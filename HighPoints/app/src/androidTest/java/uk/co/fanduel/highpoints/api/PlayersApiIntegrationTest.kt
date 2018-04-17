@@ -14,20 +14,18 @@ class PlayersApiIntegrationTest {
     fun whenGetPlayersThenCorrectNumberAndFirstPlayerReturned() {
         val baseUrl = InstrumentationRegistry.getTargetContext().getString(R.string.base_url)
         val playersApi = PlayersApi(baseUrl)
-        val playersResponse = playersApi.getPlayers().blockingFirst()
+        val players = playersApi.getPlayers().blockingFirst()
 
-        with(playersResponse) {
-            assertThat(players.size, equalTo(59))
+        assertThat(players.size, equalTo(59))
 
-            with(players.first()) {
-                assertThat(id, equalTo("15475-9524"))
-                assertThat(firstName, equalTo("Stephen"))
-                assertThat(fppg, equalTo(47.94303797468354))
-                assertThat(
-                    images.default.url,
-                    equalTo("https://d17odppiik753x.cloudfront.net/playerimages/nba/9524.png")
-                )
-            }
+        with(players.first()) {
+            assertThat(id, equalTo("15475-9524"))
+            assertThat(firstName, equalTo("Stephen"))
+            assertThat(fppg, equalTo(47.94303797468354))
+            assertThat(
+                images.default.url,
+                equalTo("https://d17odppiik753x.cloudfront.net/playerimages/nba/9524.png")
+            )
         }
     }
 
@@ -35,9 +33,9 @@ class PlayersApiIntegrationTest {
     fun whenGetPlayersThenAllPropertiesPopulatedForAllPlayers() {
         val baseUrl = InstrumentationRegistry.getTargetContext().getString(R.string.base_url)
         val playersApi = PlayersApi(baseUrl)
-        val playersResponse = playersApi.getPlayers().blockingFirst()
+        val players = playersApi.getPlayers().blockingFirst()
 
-        for (player in playersResponse.players) {
+        for (player in players) {
             with(player) {
                 assertThat(id, `is`(notNullValue()))
                 assertThat(firstName, `is`(notNullValue()))
