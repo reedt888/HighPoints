@@ -5,12 +5,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import uk.co.fanduel.highpoints.api.PlayersApi
+import uk.co.fanduel.highpoints.game.GamePrefsPersister
 import uk.co.fanduel.highpoints.game.GameState
 import uk.co.fanduel.highpoints.game.PlayerSelector
 import uk.co.fanduel.highpoints.model.Player
 
 class MainPresenter(
     private val view: MainView,
+    private val gamePrefsPersister: GamePrefsPersister,
     private val playersApi: PlayersApi,
     private val playerSelector: PlayerSelector = PlayerSelector(),
     private val gameState: GameState = GameState(),
@@ -41,6 +43,11 @@ class MainPresenter(
 
     fun stop() {
         disposable?.dispose()
+    }
+
+    fun onInstructionsAcknowledged() {
+        gamePrefsPersister.instructionsAcknowledged = true
+        showInitialOptions()
     }
 
     fun onPlayerSelected(selected: Player) {
@@ -75,11 +82,21 @@ class MainPresenter(
     private fun init(allPlayers: List<Player>) {
         playerSelector.init(allPlayers)
         if (playerSelector.isMore()) {
-            showInitialOptions()
+            initWithPlayers()
         } else {
             showNotEnoughPlayers()
         }
     }
+
+    private fun initWithPlayers() {
+        if (!gamePrefsPersister.instructionsAcknowledged) {
+            showInstructions()
+        } else {
+            showInitialOptions()
+        }
+    }
+
+    private fun showInstructions() = view.showInstructions()
 
     private fun showInitialOptions() {
         val options = playerSelector.getNext()

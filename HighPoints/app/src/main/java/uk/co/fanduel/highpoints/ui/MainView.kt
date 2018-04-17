@@ -6,6 +6,8 @@ interface MainView {
 
     // TODO: Generalise to support returning N players rather than just 2
 
+    fun showInstructions()
+
     fun showOptions(options: Pair<Player, Player>)
 
     fun scheduleNext()

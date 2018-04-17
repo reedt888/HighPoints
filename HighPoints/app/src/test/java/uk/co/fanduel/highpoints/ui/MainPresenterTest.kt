@@ -9,6 +9,7 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.verifyZeroInteractions
 import uk.co.fanduel.highpoints.api.PlayersApi
+import uk.co.fanduel.highpoints.game.GamePrefsPersister
 import uk.co.fanduel.highpoints.game.GameState
 import uk.co.fanduel.highpoints.game.PlayerSelector
 import uk.co.fanduel.highpoints.model.Image
@@ -19,6 +20,7 @@ import uk.co.fanduel.highpoints.model.Players
 class MainPresenterTest {
 
     private val view = mock(MainView::class.java)
+    private val gamePrefsPersister = mock(GamePrefsPersister::class.java)
     private val playersApi = mock(PlayersApi::class.java)
     private val playerSelector = mock(PlayerSelector::class.java)
     private val gameState = mock(GameState::class.java)
@@ -26,16 +28,41 @@ class MainPresenterTest {
 
     @Before
     fun setup() {
-        presenter = MainPresenter(view, playersApi, playerSelector, gameState, Schedulers.trampoline(), Schedulers.trampoline())
+        presenter = MainPresenter(
+            view,
+            gamePrefsPersister,
+            playersApi,
+            playerSelector,
+            gameState,
+            Schedulers.trampoline(),
+            Schedulers.trampoline()
+        )
     }
 
     @Test
-    fun whenStartAndGetPlayersSucceedsAndEnoughPlayersThenViewShowsOptions() {
+    fun whenStartAndGetPlayersSucceedsAndEnoughPlayersAndInstructionsNotAcknowledgedThenViewShowsInstructions() {
         val players = Players(listOf(createPlayer(0), createPlayer(1)))
         val options = Pair(players.players[0], players.players[1])
 
         `when`(playersApi.getPlayers()).thenReturn(Observable.just(players))
         `when`(playerSelector.isMore()).thenReturn(true)
+        `when`(gamePrefsPersister.instructionsAcknowledged).thenReturn(false)
+        `when`(playerSelector.getNext()).thenReturn(options)
+
+        presenter.start()
+
+        verify(playerSelector).init(players.players)
+        verify(view).showInstructions()
+    }
+
+    @Test
+    fun whenStartAndGetPlayersSucceedsAndEnoughPlayersAndInstructionsAcknowledgedThenViewShowsOptions() {
+        val players = Players(listOf(createPlayer(0), createPlayer(1)))
+        val options = Pair(players.players[0], players.players[1])
+
+        `when`(playersApi.getPlayers()).thenReturn(Observable.just(players))
+        `when`(playerSelector.isMore()).thenReturn(true)
+        `when`(gamePrefsPersister.instructionsAcknowledged).thenReturn(true)
         `when`(playerSelector.getNext()).thenReturn(options)
 
         presenter.start()
@@ -75,6 +102,19 @@ class MainPresenterTest {
 
         verifyZeroInteractions(playersApi)
         verifyZeroInteractions(view)
+    }
+
+    @Test
+    fun whenInstructionsAcknowledgedThenViewShowsOptions() {
+        val options = Pair(createPlayer(0), createPlayer(1))
+
+        `when`(playerSelector.getNext()).thenReturn(options)
+
+        presenter.onInstructionsAcknowledged()
+
+        verify(gameState).setOptions(options)
+        verify(view).showOptions(options)
+        verify(view).showCorrectSoFar(0)
     }
 
     @Test

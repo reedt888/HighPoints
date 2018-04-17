@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import uk.co.fanduel.highpoints.R
 import uk.co.fanduel.highpoints.api.PlayersApi
+import uk.co.fanduel.highpoints.game.GamePrefsPersister
 import uk.co.fanduel.highpoints.game.GameState
 import uk.co.fanduel.highpoints.model.Player
 import java.text.NumberFormat
@@ -50,6 +51,10 @@ class MainActivity : AppCompatActivity(), MainView {
     override fun onDestroy() {
         super.onDestroy()
         presenter.stop()
+    }
+
+    override fun showInstructions() {
+        // TODO
     }
 
     override fun showOptions(options: Pair<Player, Player>) {
@@ -148,7 +153,11 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     private fun configurePresenter() {
-        presenter = MainPresenter(this, PlayersApi(getString(R.string.base_url)))
+        presenter = MainPresenter(
+            this,
+            GamePrefsPersister(this),
+            PlayersApi(getString(R.string.base_url))
+        )
         presenter.start()
     }
 
