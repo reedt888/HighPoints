@@ -1,8 +1,10 @@
 package uk.co.fanduel.highpoints.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
 import android.widget.ImageView
@@ -22,15 +24,19 @@ class MainActivity : AppCompatActivity(), MainView {
     // - Consider injecting the presenter so we can mock it and test the fragment using Robolectric
     // - Consider adding placeholder and error drawables for loading of player images
     // - Consider using a Snackbar with a retry option when player loading fails
+    // - Make MainView methods more granular, e.g. showOptions() also makes views non-clickable
+    // - Display a progress indicator while loading players
     // - Use Robolectric to unit test methods
 
     private companion object {
         private const val scheduleNextDelay = 1000L
+        private const val showCompleteDelay = 1000L
     }
 
     private lateinit var presenter: MainPresenter
     private var selectedImage: ImageView? = null
     private var selectedScore: TextView? = null
+    private var handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +54,20 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun showOptions(options: Pair<Player, Player>) {
         with(options) {
-            displayPlayer(options.first, player_1_card, player_1_name, player_1_image, player_1_score)
-            displayPlayer(options.second, player_2_card, player_2_name, player_2_image, player_2_score)
+            displayPlayer(
+                options.first,
+                player_1_card,
+                player_1_name,
+                player_1_image,
+                player_1_score
+            )
+            displayPlayer(
+                options.second,
+                player_2_card,
+                player_2_name,
+                player_2_image,
+                player_2_score
+            )
         }
 
         player_1_card.isClickable = true
@@ -57,7 +75,7 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun scheduleNext() {
-        Handler().postDelayed({ presenter.onNext() }, scheduleNextDelay)
+        handler.postDelayed({ presenter.onNext() }, scheduleNextDelay)
     }
 
     override fun showSelectedCorrect(selected: Player) {
@@ -75,10 +93,22 @@ class MainActivity : AppCompatActivity(), MainView {
         target_count.text = GameState.targetCorrect.toString()
     }
 
+    @SuppressLint("InflateParams")
     override fun showComplete() {
         player_1_card.isClickable = false
         player_2_card.isClickable = false
-        Toast.makeText(this, R.string.game_complete_message, Toast.LENGTH_LONG).show()
+
+        handler.postDelayed({
+            AlertDialog
+                .Builder(this)
+                .setView(layoutInflater.inflate(R.layout.dialog_complete, null))
+                .setPositiveButton(android.R.string.ok, { dialogInterface, _ ->
+                    dialogInterface.dismiss()
+                })
+                .setCancelable(false)
+                .create()
+                .show()
+        }, showCompleteDelay)
     }
 
     override fun showNotEnoughPlayersError() {

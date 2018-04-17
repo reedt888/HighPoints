@@ -3,8 +3,11 @@
 
     <dimen name="header_value_width">40dp</dimen>
 
-    <dimen name="image_width">160dp</dimen>
-    <dimen name="image_height">120dp</dimen>
+    <dimen name="player_image_width">160dp</dimen>
+    <dimen name="player_image_height">120dp</dimen>
+
+    <dimen name="complete_image_width">160dp</dimen>
+    <dimen name="complete_image_height">100dp</dimen>
 
     <dimen name="padding_standard">8dp</dimen>
 
